@@ -1,0 +1,23 @@
+name: container build
+on:
+  push:
+    tags:
+      - '**'
+    branches:
+      - '**'
+      - '!master'
+jobs:
+  container-build:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ssh-key: "${{ secrets.COMMIT_KEY }}"
+      - name: container-build
+        uses: kaiehrhardt/full-build-push-action@main
+        with:
+          token: "${{ secrets.GITHUB_TOKEN }}"
+          checkout-deploy-key: "${{ secrets.COMMIT_KEY }}"

@@ -13,6 +13,10 @@ vault/stop:
 dev/build:
 	@go build
 
+dev/lint:
+	@docker pull golangci/golangci-lint:latest
+	@docker run --rm -v $$(pwd):/app -w /app golangci/golangci-lint:latest golangci-lint run -v
+
 test/system:
 	@VAULT_TOKEN="$(VAULT_TOKEN)" VAULT_ADDR="$(VAULT_ADDR)" ./keepass-vault-sync -f test-data/test.kdbx -g test1,test2,test3 -p $(KEEPASS_DB_PASS)
 

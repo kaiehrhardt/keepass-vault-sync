@@ -33,7 +33,9 @@ var rootCmd = &cobra.Command{
 		if err != nil {
 			log.Fatal(err)
 		}
-		v.EnableKV2Engine(enginePath)
+		if err := v.EnableKV2Engine(enginePath); err != nil {
+			log.Fatal(err)
+		}
 
 		file, err := os.Open(dbPath)
 		if err != nil {
@@ -69,17 +71,21 @@ var rootCmd = &cobra.Command{
 
 func init() {
 	rootCmd.PersistentFlags().StringVarP(&dbPath, "dbPath", "f", "", "path to .kdbx")
-	rootCmd.MarkPersistentFlagRequired("dbPath")
 	rootCmd.PersistentFlags().StringSliceVarP(&syncGroups, "syncGroups", "g", []string{}, "comma separated list of groups to sync")
-	rootCmd.MarkPersistentFlagRequired("syncGroups")
 	rootCmd.PersistentFlags().StringVarP(&enginePath, "enginePath", "e", "kv", "vault engine path")
 	rootCmd.PersistentFlags().StringVarP(&dbPassStdin, "dbPassStdin", "p", "", ".kdbx password")
+
+	if err := rootCmd.MarkPersistentFlagRequired("dbPath"); err != nil {
+		log.Fatal(err)
+	}
+	if err := rootCmd.MarkPersistentFlagRequired("syncGroups"); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func Execute() {
 	if err := rootCmd.Execute(); err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+		log.Fatal(err)
 	}
 }
 
