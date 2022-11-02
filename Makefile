@@ -5,6 +5,7 @@ VAULT_ENGINE_PATH = kv
 KEEPASS_DB_PASS = test
 
 vault/start:
+	@docker stop $(VAULT_NAME) || true
 	@docker run -d --name $(VAULT_NAME) --rm -p 8200:8200 --cap-add=IPC_LOCK -e 'VAULT_DEV_ROOT_TOKEN_ID=$(VAULT_TOKEN)' vault server -dev
 
 vault/stop:
@@ -18,7 +19,7 @@ dev/lint:
 	@docker run --rm -v $$(pwd):/app -w /app golangci/golangci-lint:latest golangci-lint run -v
 
 test/system:
-	@VAULT_TOKEN="$(VAULT_TOKEN)" VAULT_ADDR="$(VAULT_ADDR)" ./keepass-vault-sync -f test-data/test.kdbx -g test1,test2,test3 -p $(KEEPASS_DB_PASS)
+	@VAULT_TOKEN="$(VAULT_TOKEN)" VAULT_ADDR="$(VAULT_ADDR)" ./keepass-vault-sync -f test-data/test.kdbx -g test1,test2 -p $(KEEPASS_DB_PASS)
 
 test/show:
 	@VAULT_TOKEN="$(VAULT_TOKEN)" VAULT_ADDR="$(VAULT_ADDR)" vkv -p $(VAULT_ENGINE_PATH) --show-values

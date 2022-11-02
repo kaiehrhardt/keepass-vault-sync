@@ -151,14 +151,10 @@ func (v *Vault) EnableKV2Engine(rootPath string) error {
 	return nil
 }
 
-func (v *Vault) WriteSecrets(subPath, key, pass string) error {
-	secret := map[string]interface{}{
-		key: pass,
-	}
+func (v *Vault) WriteSecrets(subPath string, secret map[string]interface{}) error {
 	options := map[string]interface{}{
 		"data": secret,
 	}
-
 	_, err := v.Client.Logical().Write(fmt.Sprintf(readWriteSecretsPath, enginePath, subPath), options)
 	if err != nil {
 		return err
@@ -169,11 +165,12 @@ func (v *Vault) WriteSecrets(subPath, key, pass string) error {
 
 func (v *Vault) SearchAndWriteRecursive(groups []kp.Group, syncGroups []string) {
 	for _, g := range groups {
-		for _, e := range g.Entries {
-			var err error
-			if contains(syncGroups, g.Name) {
-				err = v.WriteSecrets(g.Name, e.GetTitle(), e.GetPassword())
+		if contains(syncGroups, g.Name) {
+			secret := make(map[string]interface{})
+			for _, e := range g.Entries {
+				secret[e.GetTitle()] = e.GetPassword()
 			}
+			err := v.WriteSecrets(g.Name, secret)
 			if err != nil {
 				log.Fatal(err)
 			}
