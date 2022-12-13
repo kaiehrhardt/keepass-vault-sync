@@ -19,7 +19,7 @@ dev/lint:
 	@docker run --rm -v $$(pwd):/app -w /app golangci/golangci-lint:latest golangci-lint run -v
 
 test/system:
-	@VAULT_TOKEN="$(VAULT_TOKEN)" VAULT_ADDR="$(VAULT_ADDR)" ./keepass-vault-sync -f test-data/test.kdbx -g test1,test2 -p $(KEEPASS_DB_PASS)
+	VAULT_TOKEN="$(VAULT_TOKEN)" VAULT_ADDR="$(VAULT_ADDR)" ./keepass-vault-sync -f test/testdata/test.kdbx -g test1,test2 -p $(KEEPASS_DB_PASS)
 
 test/show:
 	@VAULT_TOKEN="$(VAULT_TOKEN)" VAULT_ADDR="$(VAULT_ADDR)" vkv -p $(VAULT_ENGINE_PATH) --show-values
