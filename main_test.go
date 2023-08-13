@@ -17,6 +17,7 @@ const (
 	keepassDb     = "./tests/testdata/test.kdbx"
 	groups        = "test1,test2"
 	bin           = "./keepass-vault-sync"
+	vaultImage    = "hashicorp/vault:latest"
 	vaultToken    = "root"
 	vaultPort     = "8200"
 )
@@ -29,7 +30,7 @@ func TestIntegrationWithLatestVault(t *testing.T) {
 
 	ctx := context.Background()
 	req := testcontainers.ContainerRequest{
-		Image:        "vault:latest",
+		Image:        vaultImage,
 		ExposedPorts: []string{vaultPort + "/tcp"},
 		WaitingFor:   wait.ForLog("Development mode should NOT be used in production installations!"),
 		Cmd:          []string{"server", "-dev"},
