@@ -1,10 +1,11 @@
 name: container build
 on:
   push:
-    tags:
-      - '**'
     branches:
-      - '**'
+      - main
+  pull_request:
+    branches:
+      - main
   schedule:
     - cron: '0 0 * * *'
 jobs:
