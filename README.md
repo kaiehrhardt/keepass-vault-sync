@@ -1,5 +1,10 @@
 # keepass-vault-sync
 
+[![Go Report Card](https://goreportcard.com/badge/github.com/kaiehrhardt/keepass-vault-sync)](https://goreportcard.com/report/github.com/kaiehrhardt/keepass-vault-sync)
+[![container build](https://github.com/kaiehrhardt/keepass-vault-sync/actions/workflows/container-build.yaml/badge.svg)](https://github.com/kaiehrhardt/keepass-vault-sync/actions/workflows/container-build.yaml)
+[![go test](https://github.com/kaiehrhardt/keepass-vault-sync/actions/workflows/go-test.yml/badge.svg)](https://github.com/kaiehrhardt/keepass-vault-sync/actions/workflows/go-test.yml)
+[![golangci-lint](https://github.com/kaiehrhardt/keepass-vault-sync/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/kaiehrhardt/keepass-vault-sync/actions/workflows/golangci-lint.yml)
+
 Simple little utility that syncs certain groups from a keepass db to a path in vault.
 
 ## install
