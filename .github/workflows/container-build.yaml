@@ -16,7 +16,7 @@ jobs:
         with:
           ssh-key: "${{ secrets.COMMIT_KEY }}"
       - name: container-build
-        uses: kaiehrhardt/full-build-push-action@main
+        uses: infinite-automations/full-build-push-action@main
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
           checkout-deploy-key: "${{ secrets.COMMIT_KEY }}"
