@@ -2,7 +2,9 @@ package vault
 
 import (
 	"fmt"
+	"log"
 	"os"
+	"strings"
 
 	"github.com/hashicorp/vault/api"
 )
@@ -56,9 +58,26 @@ func (v *Vault) EnableKV2Engine(rootPath string) error {
 		},
 	}
 
-	_, err := v.Client.Logical().Write(fmt.Sprintf(mountEnginePath, rootPath), options)
+	mounts, err := v.Client.Sys().ListMounts()
 	if err != nil {
-		return err
+		log.Fatal(err)
+	}
+
+	found := false
+	for k := range mounts {
+		if strings.Trim(k, "/") == rootPath {
+			found = true
+		}
+	}
+	if found {
+		log.Println("Engine path already there. Skipping.")
+		return nil
+	} else {
+		log.Println("Creating engine path.")
+		_, err = v.Client.Logical().Write(fmt.Sprintf(mountEnginePath, rootPath), options)
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
