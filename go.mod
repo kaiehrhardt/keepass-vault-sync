@@ -3,7 +3,7 @@ module github.com/kaiehrhardt/keepass-vault-sync
 go 1.20
 
 require (
-	github.com/hashicorp/vault/api v1.12.0
+	github.com/hashicorp/vault/api v1.12.1
 	github.com/spf13/cobra v1.8.0
 	github.com/stretchr/testify v1.8.4
 	github.com/testcontainers/testcontainers-go v0.28.0
