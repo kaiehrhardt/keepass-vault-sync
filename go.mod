@@ -5,7 +5,7 @@ go 1.22.1
 require (
 	github.com/hashicorp/vault/api v1.12.2
 	github.com/spf13/cobra v1.8.0
-	github.com/stretchr/testify v1.8.4
+	github.com/stretchr/testify v1.9.0
 	github.com/testcontainers/testcontainers-go v0.28.0
 	github.com/tobischo/gokeepasslib/v3 v3.5.3
 	golang.org/x/term v0.17.0
