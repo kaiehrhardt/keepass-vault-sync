@@ -1,9 +1,10 @@
 FROM golang:1.22-alpine as build
 WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download && go mod verify
 COPY . .
-RUN go get -d -v ./... && \
-    go install -v ./...
+RUN go build -v -o keepass-vault-sync
 
-FROM alpine:latest as runtime
-COPY --from=build /go/bin/keepass-vault-sync /usr/local/bin/
-ENTRYPOINT ["keepass-vault-sync"]
+FROM scratch
+COPY --from=build /app/keepass-vault-sync /keepass-vault-sync
+ENTRYPOINT ["/keepass-vault-sync"]
